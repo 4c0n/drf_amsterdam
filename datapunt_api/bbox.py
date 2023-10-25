@@ -4,7 +4,7 @@ from math import pi, cos
 from django.contrib.gis.geos import Point
 from rest_framework.serializers import ValidationError
 
-# Default amstermdam bbox lon, lat, lon, lat
+# Default Amsterdam bbox lon, lat, lon, lat
 # square around Amsterdam.
 BBOX = [52.03560, 4.58565,
         52.48769, 5.31360]
