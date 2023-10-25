@@ -1,9 +1,12 @@
 from collections import OrderedDict
 from typing import Any
 
+from django.db.models import QuerySet
 from rest_framework import pagination, response
+from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.utils.urls import replace_query_param
+from rest_framework.views import APIView
 
 
 class HALPagination(pagination.PageNumberPagination):
@@ -52,20 +55,17 @@ class HALCursorPagination(pagination.CursorPagination):
 
     standard for large datasets Datapunt APIs.
     """
-    page_size_query_param = 'page_size'
-    count_table = True
-    count = 0
+    page_size_query_param: str = 'page_size'
+    count_table: bool = True
+    count: int = 0
 
-    def paginate_queryset(self, queryset, request, view=None):
+    def paginate_queryset(self, queryset: QuerySet, request: Request, view: APIView | None = None) -> list | None:
         if self.count_table:
             self.count = queryset.count()
+
         return super(HALCursorPagination, self).paginate_queryset(queryset, request, view=view)
 
-    def get_paginated_response(self, data):
-        self_link = self.base_url
-        if self_link.endswith(".api"):
-            self_link = self_link[:-4]
-
+    def get_paginated_response(self, data: Any) -> Response:
         next_link = self.get_next_link()
         previous_link = self.get_previous_link()
 
