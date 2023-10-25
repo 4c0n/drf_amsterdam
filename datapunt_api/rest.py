@@ -1,5 +1,8 @@
+from django.db.models import QuerySet
 from rest_framework import viewsets
 from rest_framework import renderers
+from rest_framework.request import Request
+from rest_framework.views import APIView
 from rest_framework_extensions.mixins import DetailSerializerMixin
 from django_filters.rest_framework import DjangoFilterBackend
 
@@ -34,7 +37,7 @@ class _DisabledHTMLFilterBackend(DjangoFilterBackend):
     in our case)
     """
 
-    def to_html(self, request, queryset, view):
+    def to_html(self, request: Request, queryset: QuerySet, view: APIView) -> str:
         return ""
 
 
