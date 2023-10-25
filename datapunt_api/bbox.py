@@ -38,7 +38,7 @@ def parse_xyr(value: str) -> tuple[GEOSGeometry, float]:
     return point, radius
 
 
-def dist_to_deg(distance, latitude):
+def dist_to_deg(distance: float, latitude: float) -> float:
     """
     Convert meters to degrees.
 
@@ -61,9 +61,10 @@ def dist_to_deg(distance, latitude):
 
     lat = latitude if latitude >= 0 else -1 * latitude
     rad2deg = 180 / pi
-    earthRadius = 6378160.0
-    latitudeCorrection = 0.5 * (1 + cos(lat * pi / 180))
-    return (distance / (earthRadius * latitudeCorrection) * rad2deg)
+    earth_radius = 6378160.0
+    latitude_correction = 0.5 * (1 + cos(lat * pi / 180))
+
+    return distance / (earth_radius * latitude_correction) * rad2deg
 
 
 def determine_bbox(request):
