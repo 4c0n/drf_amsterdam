@@ -110,18 +110,18 @@ class DisplayField(serializers.Field):
 
 
 class MultipleGeometryField(serializers.Field):
-
-    read_only = True
+    read_only: bool = True
 
     def get_attribute(self, obj):
         # Checking if point geometry exists. If not returning the
         # regular multipoly geometry
         return obj.geometrie
 
-    def to_representation(self, value):
+    def to_representation(self, value) -> dict | list | str | int | float | bool | None:
         # Serialize the GeoField. Value could be either None,
         # Point or MultiPoly
         res = ''
         if value:
             res = json.loads(value.geojson)
+
         return res
