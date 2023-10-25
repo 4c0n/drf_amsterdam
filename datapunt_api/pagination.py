@@ -1,5 +1,8 @@
 from collections import OrderedDict
+from typing import Any
+
 from rest_framework import pagination, response
+from rest_framework.response import Response
 from rest_framework.utils.urls import replace_query_param
 
 
@@ -9,12 +12,16 @@ class HALPagination(pagination.PageNumberPagination):
     used on most rest Datapunt APIs.
     """
 
-    page_size_query_param = 'page_size'
+    page_size_query_param: str = 'page_size'
 
-    def get_paginated_response(self, data):
+    def get_paginated_response(self, data: Any) -> Response:
+        assert self.request is not None
+
         self_link = self.request.build_absolute_uri()
         if self_link.endswith(".api"):
             self_link = self_link[:-4]
+
+        assert self.page is not None
 
         if self.page.has_next():
             next_link = replace_query_param(
