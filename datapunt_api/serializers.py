@@ -73,7 +73,7 @@ class SelfLinkSerializerMixin:
 
 
 class RelatedSummaryField(serializers.Field):
-    def to_representation(self, value):
+    def to_representation(self, value) -> dict[str, str]:
         count = value.count()
         model_name = value.model.__name__
         mapping = model_name.lower() + "-list"
