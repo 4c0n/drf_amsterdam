@@ -6,6 +6,7 @@ from typing import Mapping, Any
 
 from django.http import HttpRequest
 from rest_framework import serializers
+from rest_framework.relations import RelatedField
 from rest_framework.reverse import reverse
 import json
 
@@ -24,7 +25,7 @@ def get_links(
     return result
 
 
-class DataSetSerializerMixin(object):
+class DataSetSerializerMixin:
     """Add dataset field to indicate 'source' of this data."""
     def to_representation(self, obj):
         result = super().to_representation(obj)
@@ -47,12 +48,12 @@ class LinksField(serializers.HyperlinkedIdentityField):
 
 
 class HALSerializer(serializers.HyperlinkedModelSerializer):
-    url_field_name = '_links'
-    serializer_url_field = LinksField
+    url_field_name: str = '_links'
+    serializer_url_field: type[RelatedField] = LinksField
 
 
 # TODO: check that this is needed (vs just using the HALSerializer above).
-class SelfLinkSerializerMixin():
+class SelfLinkSerializerMixin:
     def get__links(self, obj):
         """
         Serialization of _links field for detail view (assumes ModelViewSet).
