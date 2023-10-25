@@ -2,6 +2,7 @@
 
 from math import pi, cos
 from django.contrib.gis.geos import GEOSGeometry, Point
+from rest_framework.request import Request
 from rest_framework.serializers import ValidationError
 
 # Default Amsterdam bbox lon, lat, lon, lat
@@ -67,10 +68,8 @@ def dist_to_deg(distance: float, latitude: float) -> float:
     return distance / (earth_radius * latitude_correction) * rad2deg
 
 
-def determine_bbox(request):
+def determine_bbox(request: Request) -> tuple[list[float] | None, str | None]:
     """Create a bounding box if it is given with the request."""
-    err = "invalid bbox given"
-
     if 'bbox' not in request.query_params:
         # set default value
         return BBOX, None
