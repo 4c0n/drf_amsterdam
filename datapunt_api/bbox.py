@@ -83,21 +83,21 @@ def determine_bbox(request: Request) -> tuple[list[float] | None, str | None]:
     return bbox, err
 
 
-def valid_bbox(bboxp, srid=4326):
+def valid_bbox(bboxp: str, srid: int = 4326) -> tuple[list[float], str | None]:
     """Check if bbox is a valid bounding box. (wgs84) for now.
 
     TODO write tests.
     """
-    bbox = bboxp.split(',')
+    bbox_str = bboxp.split(',')
     err = None
 
-    # check if we got 4 parametes
-    if not len(bbox) == 4:
+    # check if we got 4 parameters
+    if len(bbox_str) != 4:
         return [], "wrong numer of arguments (lon, lat, lon, lat)"
 
     # check if we got floats
     try:
-        bbox = [float(f) for f in bbox]
+        bbox = [float(f) for f in bbox_str]
     except ValueError:
         return [], "Did not recieve floats"
 
