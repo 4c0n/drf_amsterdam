@@ -91,13 +91,13 @@ class DatapuntViewSetWritable(DetailSerializerMixin, viewsets.ModelViewSet):
     - this uses HAL JSON style pagination.
     """
 
-    renderer_classes = DEFAULT_RENDERERS
-    pagination_class = HALPagination
-    filter_backends = (_DisabledHTMLFilterBackend,)
+    renderer_classes: list[type[BaseRenderer]] = DEFAULT_RENDERERS
+    pagination_class: type[BasePagination] = HALPagination
+    filter_backends = [_DisabledHTMLFilterBackend]
 
-    detailed_keyword = 'detailed'
+    detailed_keyword: str = 'detailed'
 
-    def list(self, request, *args, **kwargs):
+    def list(self, request: Request, *args, **kwargs) -> Response:
         # Checking if a detailed response is required
         if _is_detailed_request(self.detailed_keyword, request):
             self.serializer_class = self.serializer_detail_class
