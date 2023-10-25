@@ -2,12 +2,19 @@
 Serialization classes for Datapunt style Django REST Framework APIs.
 """
 from collections import OrderedDict
+from typing import Mapping, Any
+
+from django.http import HttpRequest
 from rest_framework import serializers
 from rest_framework.reverse import reverse
 import json
 
 
-def get_links(view_name, kwargs=None, request=None):
+def get_links(
+        view_name: str,
+        kwargs: Mapping[str, Any] | None = None,
+        request: HttpRequest | None = None
+) -> OrderedDict:
     result = OrderedDict([
         ('self', dict(
             href=reverse(view_name, kwargs=kwargs, request=request)
