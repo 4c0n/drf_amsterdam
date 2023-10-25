@@ -2,8 +2,9 @@
 Serialization classes for Datapunt style Django REST Framework APIs.
 """
 from collections import OrderedDict
-from typing import Mapping, Any
+from typing import Any, Mapping
 
+from django.db.models import Model
 from django.http import HttpRequest
 from rest_framework import serializers
 from rest_framework.relations import RelatedField
@@ -99,12 +100,12 @@ class DisplayField(serializers.Field):
     """
     Add a `_display` field, based on Model string representation.
     """
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         kwargs['source'] = '*'
         kwargs['read_only'] = True
         super().__init__(*args, **kwargs)
 
-    def to_representation(self, value):
+    def to_representation(self, value: Model) -> str:
         return str(value)
 
 
