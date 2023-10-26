@@ -1,0 +1,15 @@
+name: CI
+on: [pull_request]
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build container image
+        run: docker build -t drf_amsterdam_test .
+
+      - name: Run tests
+        run: docker run --rm drf_amsterdam_test python runtests.py
