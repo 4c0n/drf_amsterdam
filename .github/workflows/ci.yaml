@@ -2,8 +2,7 @@ name: CI
 on:
   pull_request: ~
   schedule:
-    # 12:30 UTC is at 8:30 or 9:30 EST depending on DST
-    - cron: '30 12 * * *'
+    - cron: '30 8 * * *'
 
 jobs:
   ci:
