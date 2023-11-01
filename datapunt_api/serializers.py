@@ -16,7 +16,7 @@ def get_links(
         view_name: str,
         kwargs: Mapping[str, Any] | None = None,
         request: HttpRequest | None = None
-) -> OrderedDict:
+) -> OrderedDict[str, dict[str, str]]:
     result = OrderedDict([
         ('self', dict(
             href=reverse(view_name, kwargs=kwargs, request=request)
